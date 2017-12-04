@@ -1,0 +1,14 @@
+shift = proc(arr, i: 1, rslt: [])
+  "Remove the first element from an array."
+  :
+  if ($i >= len ($arr), $rslt, recur($arr, $i + 1, $rslt + $arr[$i]));
+
+extend = proc (arr, ext)
+  "Extend arr with another array (ext). This appends all elements of `ext` to `arr`."
+  :
+  if (len ($ext) == 0, $arr, recur($arr + $ext[0], shift($ext)));
+
+arr2str = proc (arr, rslt: "")
+  "Convert an array to its text representation."
+  :
+  if (len ($arr) <= 0, $rslt, recur (shift ($arr), $rslt + $arr[0]));

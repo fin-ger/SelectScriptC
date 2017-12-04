@@ -1,0 +1,46 @@
+range = proc (begin, end, step: 1, rslt: [])
+  "Create an array containing all numbers between begin and end separated by step."
+  :
+  if ($begin >= $end, $rslt, recur ($begin + $step, $end, $step, $rslt + $begin));
+
+map = proc (x, f)
+  "Map each value of a given iterable x to another value with the given function f."
+  :
+  select $f($)
+    from $x;
+
+filter = proc (x, f)
+  "Exclude each value of an iterable x that does not match the predicate f."
+  :
+  select $
+    from $x
+    where $f($);
+
+reduce = proc (x, f, init:0)
+  "Reduce a given iterable x with the operator f to a single value starting with init."
+  :
+  select $i@$f($) # -> $i = $f($i, $)
+    from $x
+    start with $i = $init
+    as void;
+
+sort = PROC(x, f: proc (x): $x)
+  "Sort a given iterable with the comparer f."
+  :
+  SELECT $
+    FROM $x
+    ORDER BY $f($);
+
+max = PROC(x)
+  "Get the maximum value of a given iterable."
+  :
+  SELECT $max = IF($max < $, $, $max)
+    FROM $x
+    START WITH $max = NONE
+    AS void;
+
+enumerate = proc(x, i: 0)
+  "Create a tuple of index and value for each item in the given iterable x."
+  :
+  select [ $i @+ (1), $ ]
+    from $x;

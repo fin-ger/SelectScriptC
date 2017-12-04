@@ -1,0 +1,20 @@
+import ("array.s2");
+import ("functional.s2");
+
+L = 0;
+R = 1;
+
+dragon = proc (k, n: 0, rslt: []):
+  if ($k == $n, $rslt, (
+    $other = $rslt;
+    if ($k > 1, $other[len ($other) / 2] = L);
+    recur ($k, $n + 1, extend ($rslt + R, $other));
+  ));
+
+range (0, 10)
+  |> map (dragon)
+  |> map (proc (x): select if ($ == L, "L", "R") from $x)
+  |> enumerate ()
+  |> map (proc (t): print ($t[0] + ": " + arr2str ($t[1])));
+
+true;

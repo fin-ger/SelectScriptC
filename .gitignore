@@ -32,3 +32,5 @@ runtime/dynamic/dynamic_set.o
 runtime/dynamic/ss_string.o
 runtime/lib2s.so
 hs_err_pid*.log
+*.so
+*~
