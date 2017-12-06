@@ -1,0 +1,57 @@
+import ("array.s2");
+
+s2t_apply_template = proc (str, conf):
+  arr2str (
+    s2t_replace (
+      s2l ($str),
+      $conf
+    )
+  );
+
+s2t_replace = proc (str, conf, repl: []):
+  if ($repl == none,
+    $str,
+    if (len ($repl) == 0,
+      recur ($str, $conf, s2t_get_repl_conf ($str, $conf)),
+      recur (
+        s2t_substring_replace (
+          $str,
+          $repl[0],
+          $repl[1],
+          $conf[$repl[2]]
+        ),
+        $conf,
+        []
+      )
+    )
+  );
+
+s2t_substring_replace = proc (str, begin, end, repl):
+  extend (
+    extend (
+      s2t_substring ($str, 0, $begin),
+      s2l ($repl)
+    ),
+    s2t_substring ($str, $end, len ($str))
+  );
+
+s2t_substring = proc (str, begin, end, pos: 0, rslt: []):
+  if ($pos >= $begin,
+    if ($pos < $end,
+      recur ($str, $begin, $end, $pos + 1, $rslt + $str[$pos]),
+      $rslt
+    ),
+    recur ($str, $begin, $end, $pos + 1, $rslt)
+  );
+
+s2t_get_repl_conf = proc (str, conf, pos: 0, begin: 0, var: ""):
+  if (len ($str) == 0,
+    none,
+    if ($str[0] == "{",
+      recur (shift ($str), $conf, $pos + 1, $pos, ""),
+      if ($str[0] == "}" and $begin > 0,
+        [$begin, $pos + 1, $var],
+        recur (shift ($str), $conf, $pos + 1, $begin, $var + $str[0])
+      )
+    )
+  );

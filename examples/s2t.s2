@@ -1,0 +1,11 @@
+import ("templating.s2");
+
+input = "Hello, {name}! Welcome to {project-name}.";
+
+conf = {
+  "name": "Max Mustermann",
+  "project-name": "the select-script templating engine (s2t)"
+};
+
+s2t_apply_template (input, conf) |> print ();
+none;

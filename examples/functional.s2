@@ -24,20 +24,20 @@ reduce = proc (x, f, init:0)
     start with $i = $init
     as void;
 
-sort = PROC(x, f: proc (x): $x)
+sort = proc (x, f: proc (x): $x)
   "Sort a given iterable with the comparer f."
   :
-  SELECT $
-    FROM $x
-    ORDER BY $f($);
+  select $
+    from $x
+    order by $f($);
 
-max = PROC(x)
+max = proc (x)
   "Get the maximum value of a given iterable."
   :
-  SELECT $max = IF($max < $, $, $max)
-    FROM $x
-    START WITH $max = NONE
-    AS void;
+  select $max = if ($max < $, $, $max)
+    from $x
+    start with $max = none
+    as void;
 
 enumerate = proc(x, i: 0)
   "Create a tuple of index and value for each item in the given iterable x."
